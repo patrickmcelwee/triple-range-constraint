@@ -1,0 +1,6 @@
+{
+  "name": "triple-range-constraint",
+  "version": "0.1.0",
+  "description": "Adds a custom constraint for a triple-range-query.",
+  "repository": "https://github.com/patrickmcelwee/triple-range-constraint.git"
+}
