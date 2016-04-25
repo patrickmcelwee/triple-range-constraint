@@ -97,6 +97,6 @@ If you need to enter a string, or other data type, use a JSON object or XML chil
 ```
 
 (Note that this XML version, is slightly different from the syntax for an
-embedded ptriple, which uses a `@datatype` attribute. If you have a use case
+embedded triple, which uses a `@datatype` attribute. If you have a use case
 for the embedded triple syntax, please [file an
 issue](https://github.com/patrickmcelwee/triple-range-constraint/issues).)
