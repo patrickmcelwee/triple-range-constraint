@@ -2,35 +2,41 @@ xquery version "1.0-ml";
 
 module namespace constraint = "http://marklogic.com/constraint/triple-range-constraint";
 
-import module namespace search =
-  "http://marklogic.com/appservices/search"
-    at "/MarkLogic/appservices/search/search.xqy";
+import module namespace search = "http://marklogic.com/appservices/search"
+  at "/MarkLogic/appservices/search/search.xqy";
+
+declare default function namespace "http://www.w3.org/2005/xpath-functions";
+
+declare option xdmp:mapping "false";
 
 declare function constraint:query(
   $query-elem as element(),
   $options as element(search:options)
 ) as schema-element(cts:query)
 {
-  let $subject := $query-elem/search:subject
-  let $subject := if (exists($subject))
-    then string($subject)
-    else ()
-  let $predicate := $query-elem/search:predicate
-  let $predicate := if (exists($predicate))
-    then string($predicate)
-    else ()
-  let $object := $query-elem/search:object
-  let $object := if (exists($object))
-    then string($object)
-    else ()
+  let $subjects := constraint:get-data($query-elem/search:subject)
+  let $predicates := constraint:get-data($query-elem/search:predicate)
+  let $objects := constraint:get-data($query-elem/search:object)
+  let $operators := constraint:get-data($query-elem/search:operator)
+
+  return document{
+    cts:triple-range-query(
+      $subjects,
+      $predicates,
+      $objects,
+      $operators
+    )
+  }/*
+};
+
+declare private function constraint:get-data($vals) {
+  for $v in $vals
   return
-    <cts:triple-range-query>
-      {
-        <x>{cts:triple-range-query(
-           sem:iri($subject),
-           sem:iri($predicate),
-           sem:iri($object)
-        )}</x>/*/*
-      }
-    </cts:triple-range-query>
+    if ($v/search:value) then
+      if ($v/search:datatype) then
+        sem:typed-literal($v/search:value, sem:iri($v/search:datatype))
+      else
+        data($v/search:value)
+    else
+      sem:iri($v)
 };
