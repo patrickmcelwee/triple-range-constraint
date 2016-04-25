@@ -50,4 +50,56 @@ or, in XML:
 </custom-constraint-query>
 ```
 
-Note that subject, predicate, and object are all optional, depending on what kind of triple-range-query you need.
+Note that subject, predicate, and object are all optional, depending on what
+kind of triple-range-query you need. You can also pass in several subjects,
+predicates, or objects, which matches the [function signature for
+`cts:triple-range-query`](https://docs.marklogic.com/cts:triple-range-query).
+
+```javascript
+'custom-constraint-query': {
+  'constraint-name': 'triples',
+  'predicate': 'http://marklogic.com/relatesTo',
+  'object': ['/uri/something-I-care-about.json', '/uri/something-else.json']
+}
+```
+
+```xml
+<custom-constraint-query>
+  <constraint-name>triples</constraint-name>
+  <predicate>http://marklogic.com/relatesTo</predicate>
+  <object>/uri/something-I-care-about.xml</object>
+  <object>/uri/something-else.xml</object>
+</custom-constraint-query>
+```
+
+If you need to enter a string, or other data type, use a JSON object or XML child elements:
+
+```json
+{
+  "my": "data", 
+  "triple": {
+    "subject": "http://example.org/ns/dir/js/", 
+    "predicate": "http://xmlns.com/foaf/0.1/firstname/", 
+    "object": {
+      "datatype": "http://www.w3.org/2001/XMLSchema#string", 
+      "value": "John"
+    }
+  }
+}
+```
+
+```xml
+<search:custom-constraint-query xmlns:search="http://marklogic.com/appservices/search">
+  <search:constraint-name>triples</search:constraint-name>
+  <search:predicate>http://marklogic.com/relatesTo</search:predicate>
+  <search:object>
+    <search:value>some string</search:value>
+    <search:datatype>http://www.w3.org/2001/XMLSchema#string</search:datatype>
+  </search:object>
+</search:custom-constraint-query>
+```
+
+(Note that this XML version, is slightly different from the syntax for an
+embedded ptriple, which uses a `@datatype` attribute. If you have a use case
+for the embedded triple syntax, please [file an
+issue](https://github.com/patrickmcelwee/triple-range-constraint/issues).)
