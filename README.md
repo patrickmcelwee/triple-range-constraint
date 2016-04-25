@@ -74,16 +74,13 @@ predicates, or objects, which matches the [function signature for
 
 If you need to enter a string, or other data type, use a JSON object or XML child elements:
 
-```json
-{
-  "my": "data", 
-  "triple": {
-    "subject": "http://example.org/ns/dir/js/", 
-    "predicate": "http://xmlns.com/foaf/0.1/firstname/", 
-    "object": {
-      "datatype": "http://www.w3.org/2001/XMLSchema#string", 
-      "value": "John"
-    }
+```javascript
+'custom-constraint-query': {
+  'constraint-name': 'triples',
+  'predicate': 'http://marklogic.com/relatesTo',
+  'object': {
+    'value': 'some string',
+    'datatype': 'http://www.w3.org/2001/XMLSchema#string'
   }
 }
 ```
