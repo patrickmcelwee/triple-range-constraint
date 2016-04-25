@@ -32,8 +32,11 @@ declare function constraint:query(
 declare private function constraint:get-data($vals) {
   for $v in $vals
   return
-    if (starts-with($v, "<") and ends-with($v, ">")) then
-      sem:iri(substring($v, 2, string-length($v) - 2))
+    if ($v/search:value) then
+      if ($v/search:datatype) then
+        sem:typed-literal($v/search:value, sem:iri($v/search:datatype))
+      else
+        data($v/search:value)
     else
-      data($v)
+      sem:iri($v)
 };
