@@ -17,7 +17,7 @@ declare function constraint:query(
   let $subjects := constraint:get-data($query-elem/search:subject)
   let $predicates := constraint:get-data($query-elem/search:predicate)
   let $objects := constraint:get-data($query-elem/search:object)
-  let $operators := constraint:get-data($query-elem/search:operator)
+  let $operators := $query-elem/search:operator/string()
 
   return document{
     cts:triple-range-query(
